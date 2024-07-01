@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>WebSocket Client</title>
+</head>
+
+<body>
+  <div id="inputs">
+    <div>
+      <input type="text" class="keyInput" placeholder="Key" value="mode">
+      <input type="text" class="valueInput" placeholder="Value" value="ttv">
+    </div>
+    <div>
+      <input type="text" class="keyInput" placeholder="Key" value="channelId">
+      <input type="text" class="valueInput" placeholder="Value" value="illusive_isc">
+    </div>
+  </div>
+  <button onclick="addInput()">Add Input</button>
+  <button onclick="sendMessage()">Send Message</button>
+  <div id="messageLog"></div>
+
+  <script>
+    // WebSocketサーバーのアドレスを指定します
+    const socket = new WebSocket('ws://localhost:8080'); // サーバーのアドレスに適切なものを入れてください
+
+    // WebSocket接続が確立されたときのイベントリスナー
+    socket.addEventListener('open', function (event) {
+      console.log('WebSocket connection established');
+    });
+
+    // 新しい入力フィールドを追加する関数
+    function addInput() {
+      const inputsDiv = document.getElementById('inputs');
+      const newInputDiv = document.createElement('div');
+      newInputDiv.innerHTML = `
+        <input type="text" class="keyInput" placeholder="Key">
+        <input type="text" class="valueInput" placeholder="Value">
+      `;
+      inputsDiv.appendChild(newInputDiv);
+    }
+
+    // メッセージを送信する関数
+    function sendMessage() {
+      const keyInputs = document.getElementsByClassName('keyInput');
+      const valueInputs = document.getElementsByClassName('valueInput');
+      const data = {};
+
+      // 全てのキーと値を連想配列にまとめる
+      for (let i = 0; i < keyInputs.length; i++) {
+        const key = keyInputs[i].value;
+        const value = valueInputs[i].value;
+        if (key !== '') {
+          data[key] = value;
+        }
+      }
+
+      // 連想配列をJSON形式に変換して送信
+      socket.send(JSON.stringify(data));
+
+
+    }
+
+    // 入力フィールドをクリアする関数
+    function clearInputs() {
+      const keyInputs = document.getElementsByClassName('keyInput');
+      const valueInputs = document.getElementsByClassName('valueInput');
+      for (let i = 0; i < keyInputs.length; i++) {
+        keyInputs[i].value = '';
+        valueInputs[i].value = '';
+      }
+    }
+
+
+    // サーバーからメッセージを受信したときのイベントリスナー
+    socket.addEventListener('message', function (event) {
+      // 受信したメッセージを画面に表示
+      const messageLog = document.getElementById('messageLog');
+      const newMessage = document.createElement('div');
+      newMessage.textContent = 'Received message: ' + event.data;
+      messageLog.appendChild(newMessage);
+    });
+  </script>
+</body>
+
+</html>

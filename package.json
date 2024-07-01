@@ -1,0 +1,23 @@
+{
+  "name": "coment",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js 8080"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@twurple/api": "^7.1.0",
+    "@twurple/auth": "^7.1.0",
+    "axios": "^1.6.8",
+    "comfy.js": "^1.1.16",
+    "ws": "^8.16.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.2.5"
+  }
+}
