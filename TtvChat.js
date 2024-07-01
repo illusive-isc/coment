@@ -3,6 +3,7 @@ const { AppTokenAuthProvider } = require('@twurple/auth');
 const { bouyomiSend } = require('./httpRequest.js');
 const Secret = require('./conf/Secret.js');
 
+
 let helixClient = new ApiClient({
 	authProvider: new AppTokenAuthProvider(Secret.ttv.CLIENT_ID, Secret.ttv.SECRET)
 });
